@@ -2,6 +2,7 @@
 # Icon of ship https://www.flaticon.com/free-icon/cargo-ship_870107
 
 import pygame
+from pygame import mixer
 
 pygame.init()
 
@@ -19,6 +20,10 @@ pygame.display.set_icon(icon)
 
 # Blackground of the game
 background = pygame.image.load("images/background_space.png")
+
+# Music
+mixer.music.load("musics/background.wav")
+mixer.music.play(-1)
 
 # Player
 player_img = pygame.image.load("images/player_spaceship.png")
@@ -41,6 +46,17 @@ def fire_bullet(x,y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bullet_img, (x+16,y+10)) 
+
+# Score
+
+score_value = 0
+my_font = pygame.font.SysFont("fonts/arial_narrow_7.ttf", 32)
+score_x = 10
+score_y = 10
+
+def show_score(x,y):
+    score = my_font.render("Score: " + str(score_value), True, (0,128,0))
+    screen.blit(score, (x,y))
 
 running = True
 
@@ -94,5 +110,7 @@ while running:
     if bullet_state == "fire":
         fire_bullet(bullet_x, bullet_y)
         bullet_y -= bullet_y_change
+
+    show_score(score_x, score_y)
 
     pygame.display.update()
